@@ -1,38 +1,144 @@
 import * as THREE from "three";
+
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// Debug
-import Stats from "stats.js";
 // import * as dat from "dat.gui";
+// import Stats from "stats.js";
 
-import earthBump from "../assets/normalmaps/earth.jpg";
-import earthColor from "../assets/texturemaps/earth.jpg";
+let size, camera, renderer, clock, scene, controls, light;
+let matrixOffsetY = -5;
+let matrixOffsetX = 10;
+let state = true;
+// let stats, gui;
 
-// const gui = new dat.GUI();
-const canvas = document.querySelector("#render");
+function setup() {
+  const canvas = document.querySelector("#render");
 
-const textureLoader = new THREE.TextureLoader();
-const normalMap = textureLoader.load(earthBump);
-const colorMap = textureLoader.load(earthColor);
+  size = {
+    width: window.innerWidth / 1.5,
+    height: window.innerHeight,
+  };
 
-const stats = new Stats();
-stats.showPanel(1);
-document.body.appendChild(stats.dom);
+  camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 100);
 
-const scene = new THREE.Scene();
+  renderer = new THREE.WebGL1Renderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true,
+  });
 
-const earthGeo = new THREE.SphereBufferGeometry(0.5, 36, 36);
-const earthMaterial = new THREE.MeshStandardMaterial();
-earthMaterial.roughness = 1;
-earthMaterial.metalness = 1;
-earthMaterial.normalMap = normalMap;
-earthMaterial.map = colorMap;
+  scene = new THREE.Scene();
 
-earthMaterial.color = new THREE.Color(0xf4f1c9);
+  clock = new THREE.Clock();
 
-const earth = new THREE.Mesh(earthGeo, earthMaterial);
-scene.add(earth);
-earth.rotation.set(Math.PI / 8, Math.PI + Math.PI / 12, 0);
+  light = new THREE.PointLight(0x9c9c59, 10);
 
+  // gui = new dat.GUI();
+}
+
+function init() {
+  // camera.position.set(0, 0, 0);
+  camera.position.set(35 + matrixOffsetX, 35, 35);
+  camera.lookAt(matrixOffsetX, matrixOffsetY, 0);
+
+  light.position.set(0, 0, -15);
+  light.castShadow = true;
+
+  // controls = new OrbitControls(camera, renderer.domElement);
+  // controls.enabled = true;
+
+  scene.add(camera);
+  scene.add(light);
+  renderer.setSize(size.width, size.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  // stats = new Stats();
+  // stats.showPanel(1);
+  // document.body.appendChild(stats.dom);
+
+  // const cameraFolder = gui.addFolder("Camera");
+  // cameraFolder.add(camera.position, "x", 0, 60);
+  // cameraFolder.add(camera.position, "y", 0, 60);
+  // cameraFolder.add(camera.position, "z", 0, 60);
+  // cameraFolder.open();
+}
+
+function matrixInit() {
+  const dimention = 16;
+
+  for (
+    let i = -(dimention / 2) + matrixOffsetX;
+    i < dimention / 2 + matrixOffsetX;
+    i++
+  ) {
+    for (
+      let j = -(dimention / 2) + matrixOffsetY;
+      j < dimention / 2 + matrixOffsetY;
+      j++
+    ) {
+      for (let k = -(dimention / 2); k < dimention / 2; k++) {
+        const voxelGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+        const voxelMaterial = new THREE.MeshStandardMaterial({
+          color: 0xe3c180,
+        });
+        const voxel = new THREE.Mesh(voxelGeometry, voxelMaterial);
+
+        voxel.position.set(i, j, k);
+        scene.add(voxel);
+      }
+    }
+  }
+}
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  size.width = window.innerWidth;
+  size.height = window.innerHeight;
+});
+
+const animate = () => {
+  camera.lookAt(matrixOffsetX, matrixOffsetY, 0);
+  spinCamera(state);
+
+  // stats.begin();
+  // stats.end();
+
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(animate);
+};
+
+// Call stack
+
+setup();
+init();
+matrixInit();
+animate();
+
+// Helper functions
+
+// camera movement
+function spinCamera(wiggle) {
+  const elapsedTime = clock.getElapsedTime();
+
+  if (wiggle === true) {
+    camera.position.set(
+      35 + Math.cos(Math.PI * elapsedTime),
+      35,
+      35 + Math.sin(Math.PI * elapsedTime)
+    );
+  } else {
+    camera.position.set(
+      35 * Math.cos((Math.PI / 8) * elapsedTime),
+      35,
+      35 * Math.sin((Math.PI / 8) * elapsedTime)
+    );
+  }
+
+  // controls.update();
+}
+
+// adding stars
 const addRandomStars = () => {
   const starGeometry = new THREE.SphereBufferGeometry(0.1, 13, 13);
   const starMaterial = new THREE.MeshStandardMaterial({ color: 0xfaec84 });
@@ -44,70 +150,9 @@ const addRandomStars = () => {
   star.position.set(x, y, z);
   scene.add(star);
 };
+Array(100).fill().forEach(addRandomStars);
 
-Array(200).fill().forEach(addRandomStars);
-
-// Setting up 10 PointLights around The Earth
-for (let i = 0; i < 10; i++) {
-  const light = new THREE.PointLight(0xf2ebb3, 2);
-  light.position.set(0.7 * Math.cos(36 * i), 0.7 * Math.sin(36 * i), 0.1);
-  light.castShadow = true;
-  scene.add(light);
-
-  // const lightHelper1 = new THREE.PointLightHelper(light, 1);
-  // scene.add(lightHelper1);
-}
-
-const size = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-};
-
-window.addEventListener("resize", () => {
-  (size.width = window.innerWidth), (size.height = window.innerHeight);
+// changing animations
+document.querySelector("#home").addEventListener("click", () => {
+  state = !state;
 });
-
-const camera = new THREE.PerspectiveCamera(
-  75,
-  size.width / size.height,
-  0.1,
-  100
-);
-camera.position.set(0, 0, 1.5);
-
-scene.add(camera);
-
-const renderer = new THREE.WebGL1Renderer({
-  canvas: canvas,
-  antialias: true,
-  alpha: true,
-});
-
-renderer.setSize(size.width, size.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-// const controls = new OrbitControls(camera, renderer.domElement);
-// controls.enabled = true;
-
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-const clock = new THREE.Clock();
-
-const animate = () => {
-  const elapsedTime = clock.getElapsedTime();
-  earth.rotation.y = elapsedTime / 3;
-
-  // controls.update();
-
-  stats.begin();
-  stats.end();
-
-  renderer.render(scene, camera);
-  window.requestAnimationFrame(animate);
-};
-
-animate();
