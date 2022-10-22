@@ -1,0 +1,78 @@
+.cursor {
+  height: 20px;
+  width: 20px;
+  border: 3px solid #e6e7e2;
+  border-radius: 50%;
+  place-items: center;
+  transition: all .2s ease-out;
+  animation: 2s ease-in infinite cursor-animation;
+  display: grid;
+  position: absolute;
+}
+
+.cursor:before {
+  content: "";
+  height: 20px;
+  width: 20px;
+  opacity: .3;
+  border: 5px solid #e3c180;
+  border-radius: 50%;
+  position: absolute;
+  top: -8px;
+  left: -8px;
+}
+
+.intro {
+  height: 30vh;
+  width: 40%;
+  -webkit-user-select: none;
+  user-select: none;
+  color: #c09240;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.intro .right {
+  height: 5px;
+  width: 10px;
+  background-color: #e3c180;
+  border-radius: 50%;
+  align-self: flex-end;
+}
+
+.intro .left {
+  height: 5px;
+  width: 10px;
+  background-color: #e3c180;
+  border-radius: 50%;
+  align-self: flex-start;
+}
+
+.intro .glitch {
+  height: 100%;
+  width: 100%;
+  text-align: left;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.intro .glitch h1 {
+  color: #c09240;
+  font-size: 56px;
+}
+
+.intro .glitch p {
+  color: #e3c180;
+  font-size: 18px;
+}
+
+/*# sourceMappingURL=index.38864e05.css.map */

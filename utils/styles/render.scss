@@ -25,33 +25,6 @@ body {
   overflow: hidden;
 }
 
-.cursor {
-  height: 20px;
-  width: 20px;
-  border: 3px solid $smoke;
-  border-radius: 50%;
-  position: absolute;
-
-  display: grid;
-  place-items: center;
-
-  transition: 200ms ease-out;
-  animation: cursor-animation 2s ease-in infinite;
-
-  &::before {
-    content: "";
-    height: 20px;
-    width: 20px;
-    position: absolute;
-
-    border: 5px solid $coral;
-    opacity: 0.3;
-    border-radius: 50%;
-    top: -8px;
-    left: -8px;
-  }
-}
-
 .model {
   position: fixed;
   top: 0;
@@ -60,60 +33,6 @@ body {
 
 #render {
   background-color: rgb(5, 5, 5);
-}
-
-.intro {
-  height: 30vh;
-  width: 40%;
-
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 5px;
-  user-select: none;
-
-  color: $gold;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  .right {
-    align-self: flex-end;
-    background-color: $coral;
-    height: 5px;
-    width: 10px;
-    border-radius: 50%;
-  }
-
-  .left {
-    align-self: flex-start;
-    background-color: $coral;
-    height: 5px;
-    width: 10px;
-    border-radius: 50%;
-  }
-
-  .glitch {
-    height: 100%;
-    width: 100%;
-    text-align: left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-    h1 {
-      font-size: $text-h1;
-      color: $gold;
-    }
-    p {
-      font-size: $text-p;
-      color: $coral;
-    }
-  }
 }
 
 @keyframes cursor-animation {
