@@ -1,18 +1,20 @@
 import * as THREE from "three";
 
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // import * as dat from "dat.gui";
 // import Stats from "stats.js";
 
 let size, camera, renderer, clock, scene, controls, light;
-let matrixOffsetY = 5;
+let matrixOffsetY = -5;
+let matrixOffsetX = 10;
+let state = true;
 // let stats, gui;
 
 function setup() {
   const canvas = document.querySelector("#render");
 
   size = {
-    width: window.innerWidth,
+    width: window.innerWidth / 1.5,
     height: window.innerHeight,
   };
 
@@ -35,14 +37,14 @@ function setup() {
 
 function init() {
   // camera.position.set(0, 0, 0);
-  camera.position.set(35, 35, 35);
-  camera.lookAt(0, 0, 0);
+  camera.position.set(35 + matrixOffsetX, 35, 35);
+  camera.lookAt(matrixOffsetX, matrixOffsetY, 0);
 
   light.position.set(0, 0, -15);
   light.castShadow = true;
 
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enabled = true;
+  // controls = new OrbitControls(camera, renderer.domElement);
+  // controls.enabled = true;
 
   scene.add(camera);
   scene.add(light);
@@ -60,9 +62,13 @@ function init() {
 }
 
 function matrixInit() {
-  const dimention = 17;
+  const dimention = 16;
 
-  for (let i = -(dimention / 2); i < dimention / 2; i++) {
+  for (
+    let i = -(dimention / 2) + matrixOffsetX;
+    i < dimention / 2 + matrixOffsetX;
+    i++
+  ) {
     for (
       let j = -(dimention / 2) + matrixOffsetY;
       j < dimention / 2 + matrixOffsetY;
@@ -92,7 +98,8 @@ window.addEventListener("resize", () => {
 });
 
 const animate = () => {
-  spinCamera(false);
+  camera.lookAt(matrixOffsetX, matrixOffsetY, 0);
+  spinCamera(state);
 
   // stats.begin();
   // stats.end();
@@ -110,6 +117,7 @@ animate();
 
 // Helper functions
 
+// camera movement
 function spinCamera(wiggle) {
   const elapsedTime = clock.getElapsedTime();
 
@@ -127,5 +135,24 @@ function spinCamera(wiggle) {
     );
   }
 
-  controls.update();
+  // controls.update();
 }
+
+// adding stars
+const addRandomStars = () => {
+  const starGeometry = new THREE.SphereBufferGeometry(0.1, 13, 13);
+  const starMaterial = new THREE.MeshStandardMaterial({ color: 0xfaec84 });
+  const star = new THREE.Mesh(starGeometry, starMaterial);
+
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+  star.position.set(x, y, z);
+  scene.add(star);
+};
+Array(100).fill().forEach(addRandomStars);
+
+// changing animations
+document.querySelector("#home").addEventListener("click", () => {
+  state = !state;
+});

@@ -4,6 +4,7 @@ $text-h3: 32px;
 $text-h4: 24px;
 $text-p: 18px;
 
+$background: #050505;
 $gold: #c09240;
 $coral: #e3c180;
 $royal: #29506f;
@@ -44,7 +45,7 @@ $smoke: #e6e7e2;
 }
 
 #render {
-  background-color: rgb(5, 5, 5);
+  background-color: $background;
 }
 
 @keyframes cursor-animation {
