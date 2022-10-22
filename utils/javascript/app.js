@@ -1,5 +1,3 @@
-console.log("Hello World");
-
 // Changing the default cursor
 const cursor = document.querySelector(".cursor");
 

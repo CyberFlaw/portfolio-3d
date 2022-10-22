@@ -532,7 +532,6 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"jrp3u":[function(require,module,exports) {
-console.log("Hello World");
 // Changing the default cursor
 const cursor = document.querySelector(".cursor");
 document.addEventListener("mousemove", (e)=>{
