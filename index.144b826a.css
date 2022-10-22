@@ -1,0 +1,49 @@
+.cursor {
+  height: 20px;
+  width: 20px;
+  border: 3px solid #e6e7e2;
+  border-radius: 50%;
+  place-items: center;
+  transition: all .2s ease-out;
+  animation: 2s ease-in infinite cursor-animation;
+  display: grid;
+  position: absolute;
+}
+
+.cursor:before {
+  content: "";
+  height: 20px;
+  width: 20px;
+  opacity: .3;
+  border: 5px solid #e3c180;
+  border-radius: 50%;
+  position: absolute;
+  top: -8px;
+  left: -8px;
+}
+
+.model {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#render {
+  background-color: #050505;
+}
+
+@keyframes cursor-animation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(.7);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/*# sourceMappingURL=index.144b826a.css.map */
