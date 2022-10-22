@@ -1,11 +1,11 @@
 {
-  "name": "Portfolio",
+  "name": "portfolio",
   "version": "1.0.0",
   "description": "<a href=\"https://www.linkedin.com/in/https://www.linkedin.com/in/gokul-dinesh-4835771b3/\">\r   <img alt=\"LinkedIn\" width=\"22px\" src=\"https://edent.github.io/SuperTinyIcons/images/svg/linkedin.svg\" />\r </a>\r <a href=\"https://www.instagram.com/the_pentatonic/\">\r   <img alt=\"Instagram\" width=\"22px\" src=\"https://edent.github.io/SuperTinyIcons/images/svg/instagram.svg\" />\r </a>\r <span>\r   <img alt=\"vistors\" src=\"https://visitor-badge.glitch.me/badge?page_id=CyberFlaw.CyberFlaw\"/>\r </span>",
   "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html --no-minify",
+    "build": "parcel build index.html",
     "deploy": "gh-pages -d dist"
   },
   "repository": {

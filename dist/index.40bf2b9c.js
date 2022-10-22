@@ -541,6 +541,6 @@ document.addEventListener("drag", (e)=>{
     cursor.setAttribute("style", `top: ${e.pageY}px; left: ${e.pageX}px; transform: translate(-50%, -50%);`);
 });
 
-},{}]},["1SCMr","jrp3u"], "jrp3u", "parcelRequire7c06")
+},{}]},["1SCMr","jrp3u"], "jrp3u", "parcelRequire2041")
 
 //# sourceMappingURL=index.40bf2b9c.js.map
