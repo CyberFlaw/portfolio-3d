@@ -24,7 +24,7 @@ body {
   height: 100vh;
   width: 100%;
 
-  cursor: none;
+  // cursor: none;
   overflow: hidden;
 
   background-color: $background;
@@ -46,6 +46,15 @@ body {
     justify-content: center;
     align-items: center;
     user-select: none;
+
+    button {
+      width: 100%;
+      background-color: $background;
+      font-family: "Orbitron", sans-serif;
+      border: 0;
+
+      cursor: pointer;
+    }
 
     p {
       color: $coral;
@@ -76,59 +85,3 @@ body {
     }
   }
 }
-
-// .intro {
-//   display: none;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   user-select: none;
-
-//   position: absolute;
-//   top: 70%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-
-//   h3 {
-//     text-align: center;
-//     font-size: $text-p;
-//     color: $coral;
-//   }
-// }
-
-// .hero {
-//   height: 30vh;
-//   width: 40%;
-
-//   display: none;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   user-select: none;
-
-//   color: $gold;
-
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-
-//   .main {
-//     height: 100%;
-//     width: 100%;
-//     text-align: left;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     flex-direction: column;
-
-//     h1 {
-//       font-size: $text-h1;
-//       color: $gold;
-//     }
-//     p {
-//       font-size: $text-h4;
-//       color: $smoke;
-//     }
-//   }
-// }
