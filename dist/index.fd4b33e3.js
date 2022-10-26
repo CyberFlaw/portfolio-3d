@@ -541,7 +541,10 @@ var _statsJsDefault = parcelHelpers.interopDefault(_statsJs);
 let size, camera, renderer, clock, scene, controls, light;
 let matrixOffsetY = -10;
 let matrixOffsetX = 10;
-let state = true;
+let cameraState = true;
+let matrixState = false;
+let knitState = false;
+let contactState = false;
 let stats, gui;
 function setup() {
     const canvas = document.querySelector("#render");
@@ -549,7 +552,7 @@ function setup() {
         width: window.innerWidth / 1.5,
         height: window.innerHeight
     };
-    camera = new _three.PerspectiveCamera(75, size.width / size.height, 0.1, 100);
+    camera = new _three.PerspectiveCamera(75, size.width / size.height, 0.1, 500);
     renderer = new _three.WebGL1Renderer({
         canvas: canvas,
         antialias: true,
@@ -557,7 +560,7 @@ function setup() {
     });
     scene = new _three.Scene();
     clock = new _three.Clock();
-    light = new _three.PointLight(0x9c9c59, 10);
+    light = new _three.PointLight(0xe7ae46, 10);
     gui = new _datGui.GUI();
 }
 function init() {
@@ -581,7 +584,7 @@ function init() {
 // cameraFolder.open();
 }
 function matrixInit() {
-    const dimention = 16;
+    const dimention = 14;
     const list = new Array(dimention * dimention * dimention);
     for(let i = -(dimention / 2) + matrixOffsetX; i < dimention / 2 + matrixOffsetX; i++){
         for(let j = -(dimention / 2) + matrixOffsetY; j < dimention / 2 + matrixOffsetY; j++)for(let k = -(dimention / 2); k < dimention / 2; k++){
@@ -607,8 +610,10 @@ window.addEventListener("resize", ()=>{
 const animate = ()=>{
     const elapsedTime = clock.getElapsedTime();
     camera.lookAt(matrixOffsetX, matrixOffsetY, 0);
-    spinCamera(state, elapsedTime);
-    // wiggleMatrix(matrix, elapsedTime);
+    spinCamera(cameraState, elapsedTime);
+    if (matrixState) spinMatrix(matrix, elapsedTime);
+    if (knitState) knitCamera(elapsedTime);
+    if (contactState) contactDrift(elapsedTime);
     stats.begin();
     stats.end();
     // controls.update();
@@ -627,16 +632,22 @@ function spinCamera(wiggle, elapsedTime) {
     if (wiggle === true) camera.position.set(35 + Math.cos(Math.PI * elapsedTime), 35, 35 + Math.sin(Math.PI * elapsedTime));
     else camera.position.set(35 * Math.cos(Math.PI / 8 * elapsedTime), 35, 35 * Math.sin(Math.PI / 8 * elapsedTime));
 }
-function wiggleMatrix(list, elapsedTime) {
+function spinMatrix(list, elapsedTime) {
     list.forEach((voxel)=>{
-        voxel.position.set(voxel.position.x + Math.sin(Math.PI * elapsedTime), voxel.position.y, voxel.position.z + Math.cos(Math.PI * elapsedTime));
+        voxel.position.set(voxel.position.x + Math.sin(Math.PI * elapsedTime) * voxel.position.y * 0.1, voxel.position.y + Math.sin(Math.PI * elapsedTime) * voxel.position.x * 0.1, voxel.position.z + Math.cos(Math.PI * elapsedTime) * (voxel.position.x + voxel.position.y) * 0.1);
     });
+}
+function knitCamera(elapsedTime) {
+    camera.position.set(35 * Math.tan(Math.PI / 8 * elapsedTime), 35 * Math.cos(Math.PI / 8 * elapsedTime), 35 * Math.sin(Math.PI / 8 * elapsedTime));
+}
+function contactDrift(elapsedTime) {
+    camera.position.set(35 * Math.tan(Math.PI / 8 * elapsedTime), 100 * Math.sin(Math.PI / 8 * elapsedTime), 35 * Math.cos(Math.PI / 8 * elapsedTime));
 }
 // adding stars
 const addRandomStars = ()=>{
     const starGeometry = new _three.SphereBufferGeometry(0.1, 1, 1);
     const starMaterial = new _three.MeshStandardMaterial({
-        color: 0x34dbeb
+        color: 0xe3c180
     });
     const star = new _three.Mesh(starGeometry, starMaterial);
     const [x, y, z] = Array(3).fill().map(()=>_three.MathUtils.randFloatSpread(100));
@@ -645,8 +656,17 @@ const addRandomStars = ()=>{
 };
 Array(100).fill().forEach(addRandomStars);
 // changing animations
-document.querySelector("#home").addEventListener("click", ()=>{
-    state = !state;
+document.querySelector("#home-btn").addEventListener("click", ()=>{
+    cameraState = !cameraState;
+});
+document.querySelector("#about-btn").addEventListener("click", ()=>{
+    matrixState = !matrixState;
+});
+document.querySelector("#skills-btn").addEventListener("click", ()=>{
+    knitState = !knitState;
+});
+document.querySelector("#contact-btn").addEventListener("click", ()=>{
+    contactState = !contactState;
 });
 
 },{"three":"ktPTu","dat.gui":"k3xQk","stats.js":"9lwC6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {

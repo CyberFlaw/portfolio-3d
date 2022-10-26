@@ -48,12 +48,28 @@ body {
     user-select: none;
 
     button {
+      display: flex;
+      align-items: center;
       width: 100%;
       background-color: $background;
       font-family: "Orbitron", sans-serif;
-      border: 0;
+      border: none;
 
-      cursor: pointer;
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+
+      h4 {
+        color: $gold;
+        transition: all 250ms ease-out;
+        cursor: pointer;
+      }
+
+      h4:hover,
+      h4:focus {
+        color: $smoke;
+
+        text-shadow: 0px 0px 20px $royal;
+      }
     }
 
     p {
@@ -64,10 +80,15 @@ body {
     }
 
     h1 {
-      color: $coral;
+      z-index: 1;
+      color: $smoke;
       font-size: $text-h1;
+      margin-bottom: 3rem;
 
-      margin-bottom: 2rem;
+      text-align: center;
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
+      -moz-animation: glow 1s ease-in-out infinite alternate;
+      animation: glow 1s ease-in-out infinite alternate;
     }
 
     .options {
@@ -83,5 +104,14 @@ body {
         margin-bottom: 2rem;
       }
     }
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 50px $smoke, 0 0 5px $coral, 0 0 10px $coal;
+  }
+  to {
+    text-shadow: 0px 0px 5px $smoke, 0 0 0 $coral, 0 0 0 $coal;
   }
 }
